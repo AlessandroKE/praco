@@ -2,24 +2,22 @@
 
 include 'Includes/Config.php';
 include 'Includes/Footer.php';
+include 'Includes/edit_article.php';
+
 
 if (mysqli_connect_error()) {
     echo mysqli_connect_error();
     exit;
 }
-$con = dbConnect($host, $user, $password, $db_name);
-$sql = "SELECT *
-        FROM article
-        WHERE id = 3";
-
-$results = mysqli_query($con, $sql);
-
-if ($results === false) {
-    echo mysqli_error($con);
-} else {
-    $article = mysqli_fetch_assoc($results);//mysqli_fetch_assoc($results);
-    // Fetches a single article from the database/results
+//$conn = dbConnect($host, $user, $password, $db_name);
+if (isset($_GET['id'])){
+    $article= getArticle($conn, $_GET['id']);
+} else{
+    $article = null;
 }
+    
+
+
 
 ?>
 <!DOCTYPE html>

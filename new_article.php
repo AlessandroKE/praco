@@ -1,90 +1,125 @@
 <?php
-include 'Includes/Config.php';
-include 'Includes/Footer.php';
 
-//Vulnerability to my sql injection plugin.
+require 'includes/Config.php';
 
-//Solution:
-//MYSQLI provides us with a function real escpae string:
-//Use of prepared statements.
+$errors = [];
+$title = '';
+$content = '';
+$published_at = '';
 
-
-$db = dbConnect($host, $user, $password, $db_name);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $db = dbConnect($host, $user, $password, $db_name);
 
-//Ajax use it to reload code:
     $title = mysqli_real_escape_string($db, $_POST['title']);
     $content =  mysqli_real_escape_string($db, $_POST['content']);
     $published = mysqli_real_escape_string($db, $_POST['published_at']);
-    //OR in condtitional statements
-    if ($title == ''  || $content == '' || $published == '') {-
-        header("location: new_article.php?err=Please fill the required fields");
-    } else {
-        $stmt = $db->prepare("INSERT INTO article (title, content, published_at) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $title, $content, $published);
-        $stmt->execute();
-        // Check for errors during execution
-        if ($stmt->errno) {
-            header("location: new_article.php?info=Please fill the required fields");
-        } else {
-            header("location: article.php?info=Article sucessfully updated");
-        }
-        // Close the prepared statement
-        $stmt->close();
-    }
-} else {
-    echo "Error: " . $db->error;
-}
 
-
-/*    
-$stmt = mysqli_query($con, $sql);
-
-if ($stmt === false) {
-    echo mysqli_error($con);
-} else {
-    $id = mysqli_insert_id($con);
-
-    echo "Inserted a record with id .$id.";
-}
-    }
+    /*
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $published_at = $_POST['published_at'];
 
     */
 
-//Insert a new artile into the database
-// use of Var_dump: example var_dump($sql); Displays content of the SQL statement.
+    if ($title == '') {
+        $errors[] = 'Title is required';
+    }
+    if ($content == '') {
+        $errors[] = 'Content is required';
+    }
+
+    if ($published_at = '') {
+        $date_time = date_create_from_format('Y-m-d g:i:A', $published_at);
+
+        if ($date_time === false) {
+
+            $errors[] = 'Invalid date and time';
+
+        } else {
+
+            $date_errors = date_get_last_errors();
+
+            if ($date_errors['warning_count'] > 0) {
+                $errors[] = 'Invalid date and time';
+            }
+        }
+    }
+
+    if (empty($errors)) {
+
+        //$conn = dbConnect($host, $user, $password, $db_name);
+
+        $sql = "INSERT INTO article (title, content, published_at) VALUES (?, ?, ?)";
+
+        $stmt = mysqli_prepare($db, $sql);
+
+        if ($stmt === false) {
+
+            echo mysqli_error($conn);
+
+        } else {
+
+            if ($published_at == '') {
+                $published_at = null;
+            }
+
+            mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
+
+            if (mysqli_stmt_execute($stmt)) {
+
+                $id = mysqli_insert_id($db);
+
+                if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+                    $protocol = 'https';
+                } else {
+                    $protocol = 'http';
+                }
+                header("location: article.php?id=".$id);
+
+                //header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . "/article.php?id=$id");
+                exit;
+
+            } else {
+
+                echo mysqli_stmt_error($stmt);
+
+            }
+        }
+    }
+}
 
 ?>
-<html>
+<?php require 'includes/footer.php'; ?>
 
-<body>
-    <form method="post" action="new_article.php">
-        <?php
-        if(isset($_GET['err'])){
-            echo "<div style='color:red;'>".$_GET['err']."</div>";
-        }
+<h2>New article</h2>
 
-        if(isset($_GET['info'])){
-            echo "<div style='color:green;'>".$_GET['info']."</div>";
-        }
-        ?>
-        <div>
-            <label for = "title">Title</label>
-            <input id = "title" name="title" placeholder="Article Title"></label>
-        </div>
+<?php if (! empty($errors)) : ?>
+    <ul>
+        <?php foreach ($errors as $error) : ?>
+            <li><?= $error ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 
-        <div>
-        <label for = "content">Content</label>
-          <textarea id= "content" name="content" placeholder="Article Content" required></textarea></label>
-        </div>
+<form method="post">
 
-        <div>
-            Date and Time: <input type="datatime-local" name="published_at" >
-        </div>
+    <div>
+        <label for="title">Title</label>
+        <input name="title" id="title" placeholder="Article title" value="<?= htmlspecialchars($title); ?>">
+    </div>
 
-        <button value="Submit">Submit</button>
+    <div>
+        <label for="content">Content</label>
+        <textarea name="content" rows="4" cols="40" id="content" placeholder="Article content"><?= htmlspecialchars($content); ?></textarea>
+    </div>
 
-    </form>
-</body>
+    <div>
+        <label for="published_at">Publication date and time</label>
+        <input type="datetime-local" name="published_at" id="published_at" value="<?= htmlspecialchars($published_at); ?>">
+    </div>
 
-</html>
+    <button>Add</button>
+
+</form>
+
+<?php require 'includes/footer.php'; ?>
