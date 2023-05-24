@@ -1,0 +1,26 @@
+/* placing the footer at the bottom of the page*/
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ccc;
+  }
+  
+  body {
+    padding-top: 50px; /* adjust to the height of your navigation bar */
+  }
+  
+  ul {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px; /* add some space between the list items */
+    /* add any other styles as needed */
+  }
+  

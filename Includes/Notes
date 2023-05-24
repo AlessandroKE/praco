@@ -1,0 +1,24 @@
+{HTACCESS}
+The .htaccess file is specific to the Apache web server and provides a
+way to control access to specific directories or files on a per-directory basis. 
+It can be used to set permissions, 
+password-protect certain directories or files, and enable or disable certain features or modules.
+
+{NGIX}
+Nginx: Nginx uses configuration files, which are similar to Apache's .htaccess files, to control access to specific directories or files. However, Nginx does not support all of the features of .htaccess files and may require more complex configuration to achieve similar functionality
+
+{SAMPLE CODE}
+"Kotlin"
+location /protected/ {
+  deny all;
+  return 404;
+}
+"EXAMPLE 2"
+
+You can also use other directives to password-protect directories or files, such as auth_basic and auth_basic_user_file, which require users to enter a username and password to access the protected resource.
+
+location /protected/ {
+  auth_basic "Restricted Content";
+  auth_basic_user_file /path/to/passwords;
+  return 404;
+}
