@@ -49,7 +49,7 @@ function getArticle($conn, $id) {
         // Get the result set
         $result = $stmt->get_result();
         
-        if ($result->num_rows === 0) {
+        if ($result->num_rows === 0){ 
             // Handle the case when the query result is empty
             echo "No article found.";
         } else {
