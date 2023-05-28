@@ -4,7 +4,7 @@ require 'includes/config.php';
 require 'includes/article.php';
 
 //$conn = getDB();
-
+//$conn = dbConnect($host, $user, $password, $db_name);
 if (isset($_GET['id'])) {
 
     $article = getArticle($conn, $_GET['id']);
@@ -31,6 +31,6 @@ if (isset($_GET['id'])) {
 
 <h2>Edit article</h2>
 
-<?php require 'includes/article-form.php'; ?>
+<?php //require 'includes/article-form.php'; ?>
 
 <?php require 'includes/footer.php'; ?>

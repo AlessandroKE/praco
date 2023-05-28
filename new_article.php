@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $title = mysqli_real_escape_string($db, $_POST['title']);
     $content =  mysqli_real_escape_string($db, $_POST['content']);
-    $published = mysqli_real_escape_string($db, $_POST['published_at']);
+    $published_at = mysqli_real_escape_string($db, $_POST['published_at']);
 
     /*
     $title = $_POST['title'];
@@ -28,9 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = 'Content is required';
     }
 
-    if ($published_at = '') {
+    if ($published_at != '') {
         $date_time = date_create_from_format('Y-m-d g:i:A', $published_at);
-
+        
         if ($date_time === false) {
 
             $errors[] = 'Invalid date and time';
@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
     if (empty($errors)) {
 
         //$conn = dbConnect($host, $user, $password, $db_name);
@@ -58,10 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo mysqli_error($conn);
 
         } else {
-
             if ($published_at == '') {
                 $published_at = null;
             }
+
+          
 
             mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
 
