@@ -4,7 +4,7 @@ require 'includes/config.php';
 require 'includes/article.php';
 
 //$conn = getDB();
-//$conn = dbConnect($host, $user, $password, $db_name);
+$conn = dbConnect($host, $user, $password, $db_name);
 if (isset($_GET['id'])) {
 
     $article = getArticle($conn, $_GET['id']);
@@ -25,12 +25,66 @@ if (isset($_GET['id'])) {
 
     die("id not supplied, article not found");
 }
-var_dump($article);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $db = dbConnect($host, $user, $password, $db_name);
+
+    $title = mysqli_real_escape_string($db, $_POST['title']);
+    $content =  mysqli_real_escape_string($db, $_POST['content']);
+    $published_at = mysqli_real_escape_string($db, $_POST['published_at']);
+
+
+    $errors= validateArticle($title, $content, $published_at);
+
+    if(empty($errors)){
+        $sql = "UPDATE";
+
+        $stmt = mysqli_prepare($db, $sql);
+
+        if ($stmt === false) {
+
+            echo mysqli_error($conn);
+
+        } else {
+            if ($published_at == '') {
+                $published_at = null;
+            }
+
+          
+
+            mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
+
+            if (mysqli_stmt_execute($stmt)) {
+
+                $id = mysqli_insert_id($db);
+
+                if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+                    $protocol = 'https';
+                } else {
+                    $protocol = 'http';
+                }
+                header("location: article.php?id=".$id);
+
+                //header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . "/article.php?id=$id");
+                exit;
+
+            } else {
+
+                echo mysqli_stmt_error($stmt);
+
+            }
+        }
+
+        die("form is valid");
+
+    }
+
+}
+//var_dump($article);
 ?>
 <?php //require 'includes/header.php'; ?>
 
 <h2>Edit article</h2>
 
-<?php //require 'includes/article-form.php'; ?>
+<?php require 'includes/article-form.php'; ?>
 
 <?php require 'includes/footer.php'; ?>
