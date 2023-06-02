@@ -37,7 +37,7 @@ if ($results===false){
 
 function getArticle($conn, $id) {
     // Prepare the SQL statement
-    $stmt = $conn->prepare("SELECT * FROM article WHERE id = ?");
+    $stmt = $conn->prepare("SELECT * FROM article WHERE Id = ?");
     
     if ($stmt === false) {
         echo $conn->error;

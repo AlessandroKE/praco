@@ -29,7 +29,7 @@ if ($results === false) {
         <?php foreach ($articles as $article): ?>
             <li>
                 <article>
-                    <h2><a href="article.php?id=<?= $article['id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
+                    <h2><a href="article.php?id=<?= $article['Id']; ?>"><?= htmlspecialchars($article['title']); ?></a></h2>
                     <p><?= htmlspecialchars($article['content']); ?></p>
                 </article>
             </li>

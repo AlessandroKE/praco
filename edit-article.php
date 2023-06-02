@@ -11,6 +11,7 @@ if (isset($_GET['id'])) {
 
     if ($article) {
 
+        $id = $article['Id'];
         $title = $article['title'];
         $content = $article['content'];
         $published_at = $article['published_at'];
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors= validateArticle($title, $content, $published_at);
 
     if(empty($errors)){
-        $sql = "UPDATE";
+        $sql ='UPDATE article SET title = ?, content=?,  published_at =? WHERE id = ?';
 
         $stmt = mysqli_prepare($db, $sql);
 
@@ -50,12 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
           
-
-            mysqli_stmt_bind_param($stmt, "sss", $title, $content, $published_at);
+            mysqli_stmt_bind_param($stmt, "sssi", $title, $content, $published_at,$id);
 
             if (mysqli_stmt_execute($stmt)) {
 
-                $id = mysqli_insert_id($db);
+                //$id = mysqli_insert_id($db);
 
                 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
                     $protocol = 'https';
