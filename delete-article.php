@@ -56,3 +56,16 @@ WHERE id = ? ";
      }
  }
 }
+?>
+<h2>Delete article</h2>
+
+<form method = post >
+    <p>Are you sure?</p>
+<button>Delete</button>
+<a href = "article.php?id=<?=$article['Id'];?>">Cancel</a>
+</form>
+
+<?php //require 'includes/article-form.php'; ?>
+
+<?php require 'includes/footer.php'; ?>
+

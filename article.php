@@ -27,9 +27,7 @@ if (isset($_GET['id'])) {
     </article>
 
 <a href = "edit-article.php?id=<?=$article['Id'];?>">Edit</a>
-<form method = post action = "delete-article.php?id=<?=$article['Id'];?>">
-<button>Delete</button>
-</form>
+<a href = "delete-article.php?id=<?=$article['Id'];?>">Delete</a>
 
 <?php endif; ?>
 
