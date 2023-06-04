@@ -70,7 +70,7 @@ function validateArticle($title,$content,$published_at){
         $errors[] = 'Content is required';
     }
 
-    if ($published_at != '') {
+    if ($published_at == '') {
         $date_time = date_create_from_format('Y-m-d g:i:A', $published_at);
         
         if ($date_time === false) {
