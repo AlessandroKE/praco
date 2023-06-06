@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require 'Includes/Config.php';
 
 $db = dbConnect($host, $user, $password, $db_name);
@@ -18,6 +20,15 @@ if ($results === false) {
 
 ?>
 <?//php require 'includes/header.php'; ?>
+<?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']): ?>
+
+<p>You are logged in. <a href="logout.php">Log out</a></p>
+
+<?php else: ?>
+
+<p>You are not logged in. <a href="login.php">Log in</a></p>
+
+<?php endif; ?>
 
 <a href="new_article.php">New article</a>
 
