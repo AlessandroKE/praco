@@ -3,10 +3,12 @@ session_start();
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($_POST['username'] == 'admin' && $_POST['password'] =='sandro') {
 
-        die("Logged in sucessfully!");
+        $_SESSION['is_logged_in']= true;
+
+       header("Location:index.php");
 
 }else{
-    echo"Please enter correct credentials.";
+   die("Please enter correct credentials.");
 }
 }
 ?>
