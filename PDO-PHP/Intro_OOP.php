@@ -4,7 +4,10 @@ require ('item.php');
 
 $my_item = new Item();
 
+$my_item->setName("sandro");
+$my_item->setDescription("I am getting these things very fast");
 
+echo $my_item->getName();
 
 //var_dump($my_item->name);
 /*
