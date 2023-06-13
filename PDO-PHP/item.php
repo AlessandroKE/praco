@@ -2,7 +2,7 @@
 
 class Item
 {
-//properties are declared as properties inside the class
+//properties are declared as properties inside the class 
 private $name;
 private $description;
 // using getter and setter methods to get the description & name property  of the item instance.
