@@ -13,9 +13,6 @@ echo $my_item->getName();
 /*
 $my_item->name = 'Sandro';
 $my_item->description = 'Best student to Grace this earth';
-
-
-
 */
 //$person = new Person();
 //$person->name = "John Doe";
