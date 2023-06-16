@@ -2,20 +2,25 @@
 
 session_start();
 
-require 'Includes/Config.php';
+//require 'Includes/Config.php';
+require 'classes/database.php';
 
-$db = dbConnect($host, $user, $password, $db_name);
+$db = new database();
+$conn = $db->getConn();
+
 
 $sql = "SELECT *
         FROM article
         ORDER BY published_at;";
 
-$results = mysqli_query($db, $sql);
+$results = $conn->query($sql);
 
 if ($results === false) {
-    echo mysqli_error($db);
+  $conn->errorInfo();
 } else {
-    $articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
+    //$articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
+    $articles = $results->fetchAll(PDO::FETCH_ASSOC);
+
 }
 
 ?>
