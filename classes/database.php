@@ -5,6 +5,10 @@ class database {
     public $password = "";
     public $db_name = "cms";
 
+
+    //{$this} is a special variable that refers to the current instance of the class. 
+    //It is used within class methods to access properties and methods of the class.
+    
     public function getConn()
     {
         $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->db_name . ';charset=utf8';
