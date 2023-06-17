@@ -19,6 +19,7 @@ if ($results === false) {
   $conn->errorInfo();
 } else {
     //$articles = mysqli_fetch_all($results, MYSQLI_ASSOC);
+    //Fectching the results as an associative array
     $articles = $results->fetchAll(PDO::FETCH_ASSOC);
 
 }
