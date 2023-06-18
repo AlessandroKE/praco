@@ -4,11 +4,14 @@ session_start();
 
 //require 'Includes/Config.php';
 require 'classes/database.php';
+require 'classes/article.php';
 
 $db = new database();
 $conn = $db->getConn();
 
+$articles = Article::getArticle($conn)
 
+/*
 $sql = "SELECT *
         FROM article
         ORDER BY published_at;";
@@ -23,7 +26,7 @@ if ($results === false) {
     $articles = $results->fetchAll(PDO::FETCH_ASSOC);
 
 }
-
+*/
 ?>
 <?//php require 'includes/header.php'; ?>
 <?php if (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in']): ?>
