@@ -19,6 +19,19 @@ if ($results === false) {
 
 }
    }
+
+   public static function getById($conn, $id) {
+    $sql = "SELECT * FROM article WHERE Id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    // Add error handling or return a default value if needed
+    return null;
+}
+
 }
 
 ?>
