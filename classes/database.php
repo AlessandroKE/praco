@@ -3,7 +3,7 @@ class database {
     public $host = "localhost";
     public $user = "root";
     public $password = "";
-    public $db_name = "cm";
+    public $db_name = "cms";
 
 
     //{$this} is a special variable that refers to the current instance of the class. 

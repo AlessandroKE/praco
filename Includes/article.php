@@ -1,7 +1,8 @@
 
 <?php
+include 'classes/database.php';
 /*
-
+include 'classes/database.php';
 $conn = dbConnect($host, $user, $password, $db_name);
 
 function getArticle($conn, $id){
@@ -34,9 +35,10 @@ if ($results===false){
 
 // Establish the database connection
 //$conn = dbConnect($host, $user, $password, $db_name);
-
+/*
 function getArticle($conn, $id) {
     // Prepare the SQL statement
+    //procedural programming PHP.
     $stmt = $conn->prepare("SELECT * FROM article WHERE Id = ?");
     
     if ($stmt === false) {
@@ -59,6 +61,22 @@ function getArticle($conn, $id) {
         }
     }
 }
+*/
+
+//OOP PHP
+function getArticle($conn, $id) {
+    $sql = "SELECT * FROM article WHERE Id = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    // Add error handling or return a default value if needed
+    return null;
+}
+
+
 
 function validateArticle($title,$content,$published_at){
     $errors = [];
