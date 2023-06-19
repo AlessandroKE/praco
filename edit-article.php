@@ -1,13 +1,17 @@
 <?php
 
-require 'includes/config.php';
-require 'includes/article.php';
+require 'classes/database.php';
+require 'classes/article.php';
 
 //$conn = getDB();
-$conn = dbConnect($host, $user, $password, $db_name);
+//$conn = dbConnect($host, $user, $password, $db_name); 
+$db = new database();
+$conn = $db->getConn();
+
+
 if (isset($_GET['id'])) {
 
-    $article = getArticle($conn, $_GET['id']);
+    $article = Article::getArticle($conn, $_GET['id']);
 
     if ($article) {
 
