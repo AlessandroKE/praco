@@ -1,7 +1,7 @@
 <?php
 
-require 'classes/database.php';
-require 'classes/article.php';
+include 'classes/database.php';
+include 'classes/article.php';
 
 //$conn = getDB();
 //$conn = dbConnect($host, $user, $password, $db_name); 
@@ -47,7 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt === false) {
 
-            echo mysqli_error($conn);
+            $conn->errorInfo();
+
+            //echo mysqli_error($conn);
 
         } else {
             if ($published_at == '') {
