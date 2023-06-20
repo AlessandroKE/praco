@@ -1,10 +1,11 @@
 <?php
 require 'classes/database.php';
 require 'classes/Article.php';
-include 'includes/article.php';
+//include 'includes/article.php';
 
 //$conn = getDB();
 //$conn = dbConnect($host, $user, $password, $db_name); 
+
 $db = new database();
 $conn = $db->getConn();
 
