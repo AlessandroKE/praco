@@ -1,7 +1,7 @@
 <?php
-
-include 'classes/database.php';
-include 'classes/article.php';
+require 'classes/database.php';
+require 'classes/Article.php';
+include 'includes/article.php';
 
 //$conn = getDB();
 //$conn = dbConnect($host, $user, $password, $db_name); 
@@ -14,12 +14,6 @@ if (isset($_GET['id'])) {
     $article = Article::getArticle($conn, $_GET['id']);
 
     if ($article) {
-
-        $id = $article['Id'];
-        $title = $article['title'];
-        $content = $article['content'];
-        $published_at = $article['published_at'];
-
     } else {
 
         die("article not found");
@@ -47,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt === false) {
 
-            $conn->errorInfo();
+            
 
             //echo mysqli_error($conn);
 
