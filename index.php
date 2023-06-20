@@ -4,7 +4,7 @@ session_start();
 
 //require 'Includes/Config.php';
 require 'classes/database.php';
-require 'classes/article.php';
+require 'classes/Article.php';
 
 $db = new database();
 $conn = $db->getConn();
