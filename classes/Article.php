@@ -25,8 +25,13 @@ if ($results === false) {
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 
+    //Fectching the properties of the class as an object.
+
+    $stmt->setFetchMode(PDO::FETCH_CLASS, "Article");
+
     if ($stmt->execute()) {
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        //Fetching the properties of the class as an array.
+        //return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     // Add error handling or return a default value if needed
     return null;
