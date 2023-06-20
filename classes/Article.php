@@ -27,7 +27,7 @@ if ($results === false) {
 
     //Fectching the properties of the class as an object.
 
-    $stmt->setFetchMode(PDO::FETCH_CLASS, "Article");
+    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Article');
 
     if ($stmt->execute()) {
         //Fetching the properties of the class as an array.
