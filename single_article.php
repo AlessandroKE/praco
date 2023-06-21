@@ -35,8 +35,10 @@ if (isset($_GET['id'])) {
 
     </article>
 
-    <a href="edit-article.php?id=<?= $article->id; ?>">Edit</a>
-    <a href="delete-article.php?id=<?= $article->id; ?>">Delete</a>
+    <a href="edit-article.php?id=<?= $article->Id; ?>">Edit</a>
+    <a href="delete-article.php?id=<?= $article->Id; ?>">Delete</a>
+
+    <?//php var_dump($article); ?> <!-- Add this line for debugging -->
 
 
 <?php endif; ?>
