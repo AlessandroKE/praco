@@ -6,6 +6,9 @@
     </ul>
 <?php endif; ?>
 
+<?php //var_dump($article); ?> <!-- Add this line for debugging -->
+
+
 <form method="post">
 
     <div>
