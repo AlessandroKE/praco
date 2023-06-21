@@ -7,14 +7,20 @@ require 'classes/Article.php';
 $db = new database();
 $conn = $db->getConn();
 
-if (isset($_GET['id'])) {
+// Initialize variables
+$article = null;
+$errors = [];
 
+// Check if article ID is provided in the URL
+if (isset($_GET['id'])) {
     $article = Article::getById($conn, $_GET['id']);
 
+    if ($article === null) {
+        $errors[] = "Article not found.";
+    }
 } else {
-    $article = null;
+    $errors[] = "Invalid article ID.";
 }
-
 ?>
 <?//php require 'includes/header.php'; ?>
 
@@ -29,8 +35,9 @@ if (isset($_GET['id'])) {
 
     </article>
 
-<a href = "edit-article.php?id=<?=$article->id; ?>">Edit</a>
-<a href = "delete-article.php?id=<?=$article->id; ?>">Delete</a>
+    <a href="edit-article.php?id=<?= $article->id; ?>">Edit</a>
+    <a href="delete-article.php?id=<?= $article->id; ?>">Delete</a>
+
 
 <?php endif; ?>
 
