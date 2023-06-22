@@ -36,7 +36,7 @@ class Article
      *
      * @param object $conn Connection to the database
      *
-     * @return array An associative array of all the article records
+     * @return  an object
      */
     public static function getArticle($conn)
     {
@@ -58,21 +58,47 @@ class Article
      *
      * @return mixed An object of this class, or null if not found
      */
-    public static function getByID($conn, $id, $columns = '*')
-    {
-        $sql = "SELECT $columns
-                FROM article
-                WHERE Id = :id";
+    public static function getById($conn, $id)
+{
+    $sql = "SELECT * FROM article WHERE Id = :id";
 
+    try {
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Article');
 
         if ($stmt->execute()) {
-
             return $stmt->fetch();
-
         }
+    } catch (PDOException $e) {
+
+        echo "Error retrieving the article: " . $e->getMessage();
+        // Handle the exception, log or display an error message
+        // You can also throw a custom exception if desired
+    }
+
+    return null; // Return null if execution fails or article is not found
+}
+public function update($conn)
+    {
+        $sql = "UPDATE article
+                SET title = :title,
+                    content = :content,
+                    published_at = :published_at
+                WHERE Id = :id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
+        $stmt->bindValue(':content', $this->content, PDO::PARAM_STR);
+
+        if ($this->published_at == '') {
+            $stmt->bindValue(':published_at', null, PDO::PARAM_NULL);
+        } else {
+            $stmt->bindValue(':published_at', $this->published_at, PDO::PARAM_STR);
+        }
+
+        return $stmt->execute();
     }
 }
