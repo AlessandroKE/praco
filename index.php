@@ -9,7 +9,7 @@ require 'classes/Article.php';
 $db = new database();
 $conn = $db->getConn();
 
-$articles = Article::getArticle($conn)
+$articles = Article::getArticles($conn);
 
 /*
 $sql = "SELECT *

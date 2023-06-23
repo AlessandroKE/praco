@@ -146,5 +146,18 @@ class Article
 
         return empty($this->errors);
     }
-    
+    public function delete($conn){
+
+         $sql = "DELETE FROM article
+         WHERE Id = :id";
+         
+            $stmt = $conn->prepare($sql);
+
+            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+            
+
+            return $stmt->execute();
+        
+
+    }
 }
