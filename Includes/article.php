@@ -1,6 +1,6 @@
 
 <?php
-include 'classes/database.php';
+//include 'classes/database.php';
 /*
 include 'classes/database.php';
 $conn = dbConnect($host, $user, $password, $db_name);
