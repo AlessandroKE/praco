@@ -1,6 +1,32 @@
 <?php
+require 'classes/database.php';
+require 'classes/Article.php';
+//include 'includes/article.php';
+//include 'includes/article.php';
+//require 'single_article.php';
 
-require 'includes/config.php';
+//$conn = getDB();
+//$conn = dbConnect($host, $user, $password, $db_name); 
+
+$db = new database();
+$conn = $db->getConn();
+
+
+// Initialize variables
+$article = null;
+$errors = [];
+
+// Check if article ID is provided in the URL
+if (isset($_GET['id'])) {
+    $article = Article::getById($conn, $_GET['id']);
+
+    if ($article === null) {
+        $errors[] = "Article not found.";
+    }
+} else {
+    $errors[] = "Invalid article ID.";
+}
+/* require 'includes/config.php';
 require 'includes/article.php';
 
 //$conn = getDB();
@@ -25,11 +51,18 @@ if (isset($_GET['id'])) {
 } else {
 
     die("id not supplied, article not found");
-}
+} */
+
+
 //Query statement
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-$sql= "DELETE FROM article
-WHERE id = ? ";
+
+    if ($article->delete($conn)) {
+        header("Location: index.php"); // Corrected syntax for the header() function
+        exit; // Terminates the script execution after the redirect
+    }
+/* $sql= "DELETE FROM article
+WHERE Id = ? ";
 
  $stmt = mysqli_prepare($conn, $sql);
 //Validate the statement.
@@ -54,7 +87,7 @@ WHERE id = ? ";
          echo mysqli_stmt_error($stmt);
 
      }
- }
+ } */
 }
 ?>
 <h2>Delete article</h2>
@@ -62,7 +95,7 @@ WHERE id = ? ";
 <form method = post >
     <p>Are you sure?</p>
 <button>Delete</button>
-<a href = "article.php?id=<?=$article['Id'];?>">Cancel</a>
+<a href = "article.php?id=<?=$article->Id;?>">Cancel</a>
 </form>
 
 <?php //require 'includes/article-form.php'; ?>
