@@ -130,7 +130,8 @@ class Article
         }
 
         if ($this->published_at != '') {
-            $date_time = date_create_from_format('Y-m-d g:i:A', $this->published_at);
+            //$stmt->bindParam(':date', $date_time, PDO::PARAM_STR);
+           $date_time = date_create_from_format('Y-m-d g:i:A', $this->published_at);
 
             if ($date_time === false) {
                 $this->errors[] = 'Invalid date and time';
@@ -145,4 +146,5 @@ class Article
 
         return empty($this->errors);
     }
+    
 }
