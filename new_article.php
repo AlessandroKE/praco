@@ -1,14 +1,16 @@
 <?php
 
-require 'includes/Config.php';
-require 'includes/article.php';
+require 'classes/database.php';
+require 'classes/Article.php';
 
 $errors = [];
-$title = '';
+/* $title = '';
 $content = '';
-$published_at = '';
+$published_at = ''; */
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$article = new Article();
+
+/* if($_SERVER["REQUEST_METHOD"] == "POST") {
     $db = dbConnect($host, $user, $password, $db_name);
 
     $title = mysqli_real_escape_string($db, $_POST['title']);
@@ -20,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $content = $_POST['content'];
     $published_at = $_POST['published_at'];
 
-    */
+
 
     $errors= validateArticle($title, $content, $published_at);
     
@@ -65,9 +67,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             }
         }
-    }
-}
+    } */
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $db = new database();
+        $conn = $db->getConn();
 
+        $article->title = $_POST['title'];
+        $article->content = $_POST['content'];
+        $article->published_at = $_POST['published_at'];
+
+        
+        if ($article->create($conn)) {
+
+            //$id = mysqli_insert_id($db);
+
+            header("location: single_article.php?id= {$article->id}");
+
+            //header("Location: $protocol://" . $_SERVER['HTTP_HOST'] . "/article.php?id=$id");
+            exit;
+/* 
+        } 
+        else {
+
+            die("form is valid");
+*/
+    }
+
+    
+
+
+}
 ?>
 <?php require 'includes/footer.php'; ?>
 

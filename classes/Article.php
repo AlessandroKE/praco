@@ -90,11 +90,7 @@ class Article
     public function update($conn)
     {
         if ($this->validateArticle()) {
-            $sql = "UPDATE article
-                    SET title = :title,
-                        content = :content,
-                        published_at = :published_at
-                    WHERE id = :id";
+            $sql = "UPDATE article SET title = :title, content = :content, published_at = :published_at WHERE id = :id";
 
             $stmt = $conn->prepare($sql);
 
@@ -148,8 +144,7 @@ class Article
     }
     public function delete($conn){
 
-         $sql = "DELETE FROM article
-         WHERE Id = :id";
+         $sql = "DELETE FROM article WHERE Id = :id";
          
             $stmt = $conn->prepare($sql);
 
@@ -160,4 +155,26 @@ class Article
         
 
     }
+    public function create($conn)
+    {
+        if ($this->validateArticle()) {
+            $sql = "INSERT INTO article (title, content, published_at) VALUES (:title, :content, :published_at)";
+            $stmt = $conn->prepare($sql);
+
+           // $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
+            $stmt->bindValue(':content', $this->content, PDO::PARAM_STR);
+
+            if ($this->published_at == '') {
+                $stmt->bindValue(':published_at', null, PDO::PARAM_NULL);
+            } else {
+                $stmt->bindValue(':published_at', $this->published_at, PDO::PARAM_STR);
+            }
+
+            return $stmt->execute();
+        } else {
+            return false;
+        }
+    }
+
 }
